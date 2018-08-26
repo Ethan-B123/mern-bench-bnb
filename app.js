@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 
 const users = require("./routes/api/users");
-const events = require("./routes/api/events");
+const tweets = require("./routes/api/tweets");
 
 process.stdout.write("\033c");
 
@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 // Passport
 app.use(passport.initialize());
-require("./private/passport")(passport);
+require("./passport")(passport);
 
 mongoose
   .connect(
@@ -29,6 +29,6 @@ mongoose
 
 app.get("/", (req, res) => res.send("Hello World"));
 app.use("/api/users", users);
-app.use("/api/events", events);
+app.use("/api/tweets", tweets);
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));
