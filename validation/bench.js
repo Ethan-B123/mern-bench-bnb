@@ -1,12 +1,12 @@
 const Validator = require("validator");
 const isEmpty = require("./is-empty");
 
-module.exports = function validateTweetInput(data) {
+module.exports = function validateBenchInput(data) {
   let errors = {};
 
-  data.body = !isEmpty(data.body) ? data.body : "";
+  data.body = !isEmpty(data.description) ? data.description : "";
 
-  if (Validator.isEmpty(data.body)) {
+  if (Validator.isEmpty(data.description)) {
     errors.body = "Body field is required";
   }
 

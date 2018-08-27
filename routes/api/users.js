@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const User = require("../../models/User");
+const Bench = require("../../models/Bench");
 const jwt = require("jsonwebtoken");
 const key = require("../../private/secret");
 const passport = require("passport");
@@ -9,8 +10,6 @@ const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
 const router = express.Router();
-
-router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
@@ -87,6 +86,32 @@ router.get(
       handle: req.user.handle,
       email: req.user.email
     });
+  }
+);
+
+router.post(
+  "/:user/favorites/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // Check Validation
+    if (typeof req.params.id !== "number") {
+      // If any errors, send 400 with errors object
+      return res.status(400).json({ errors: "Bench ID must be an integer" });
+    }
+
+    User.findById(req.params.user)
+      .then(user => {
+        Bench.findById(req.params.id)
+          .then(bench => {
+            user.favorites.unshift(bench);
+          })
+          .catch(err => {
+            return res.status(400).json({ nobenchfound: "No bench found" });
+          });
+
+        user.save().then(user => res.json(user));
+      })
+      .catch(err => res.status(404).json({ usernotfound: "No user found" }));
   }
 );
 
