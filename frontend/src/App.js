@@ -1,47 +1,25 @@
-import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import axios from "axios";
+//React
+import React from 'react';
+import ReactDOM from 'react-dom';
+//Components
+import Root from './components/root';
+import configureStore from './store/store';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.loginTest = this.loginTest.bind(this);
-    this.loginTest();
-    window.axios = axios;
+
+document.addEventListener('DOMContentLoaded', () => {
+  let store;
+  if (window.currentUser) {
+    const preloadedState = {
+      session: { id: window.currentUser.id },
+      entities: {
+        users: { [window.currentUser.id]: window.currentUser }
+      }
+    };
+    store = configureStore(preloadedState);
+    delete window.currentUser;
+  } else {
+    store = configureStore();
   }
-
-  loginTest() {
-    // axios({
-    //   method: "post",
-    //   url: "/api/users/login",
-    //   body: {
-    //     email: "tuptain@appacademy.io",
-    //     password: "password123"
-    //   }
-    // })
-    //   .then(res => {
-    //     console.log(res);
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
-    axios.get("/api/tweets").then(tweet => console.log(tweet));
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and don't save to reload.
-        </p>
-      </div>
-    );
-  }
-}
-
-export default App;
+  const root = document.getElementById('root');
+  ReactDOM.render(<Root store={store} />, root);
+});
