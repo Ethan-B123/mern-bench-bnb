@@ -8,7 +8,7 @@ const passport = require("passport");
 const users = require("./routes/api/users");
 const tweets = require("./routes/api/tweets");
 
-process.stdout.write("\033c");
+// process.stdout.write("\033c");
 
 const port = process.env.PORT || 5000;
 
