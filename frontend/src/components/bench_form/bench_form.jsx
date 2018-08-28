@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 
+const cloudinary = window.cloudinary;
+
 class BenchForm extends React.Component{
   constructor(props) {
     super(props);
@@ -27,7 +29,7 @@ class BenchForm extends React.Component{
 
   handleCloudinary(e) {
     e.preventDefault();
-    cloudinary.openUploadWidget(CLOUDINARY_OPTIONS, (error, results) => {
+    cloudinary.openUploadWidget((error, results) => {
       if(error)
         console.log(error);
       else

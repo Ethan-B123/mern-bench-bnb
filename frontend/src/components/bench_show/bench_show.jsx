@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import BenchDetail from './bench_detail';
+import BenchDetail from './bench_detail.jsx';
 import BenchMap from '../bench_map/bench_map';
 import ReviewFormContainer from './review_form_container';
 import { ProtectedRoute } from '../../util/route_util';

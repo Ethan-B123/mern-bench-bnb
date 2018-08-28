@@ -7,7 +7,7 @@ import Root from './components/root';
 const App = ({ store }) => (
   <Provider store={store}>
     <HashRouter>
-      <App />
+      <Root />
     </HashRouter>
   </Provider>
 );
