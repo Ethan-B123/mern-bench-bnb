@@ -94,7 +94,7 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // Check Validation
-    if (typeof req.params.id !== "number") {
+    if (typeof req.params.id !== "string") {
       // If any errors, send 400 with errors object
       return res.status(400).json({ errors: "Bench ID must be an integer" });
     }
@@ -104,12 +104,11 @@ router.post(
         Bench.findById(req.params.id)
           .then(bench => {
             user.favorites.unshift(bench);
+            user.save().then(user => res.json(user));
           })
           .catch(err => {
             return res.status(400).json({ nobenchfound: "No bench found" });
           });
-
-        user.save().then(user => res.json(user));
       })
       .catch(err => res.status(404).json({ usernotfound: "No user found" }));
   }

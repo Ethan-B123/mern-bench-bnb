@@ -4,9 +4,9 @@ const isEmpty = require("./is-empty");
 module.exports = function validateBenchInput(data) {
   let errors = {};
 
-  data.body = !isEmpty(data.description) ? data.description : "";
+  data.body = !isEmpty(data.body) ? data.body : "";
 
-  if (Validator.isEmpty(data.description)) {
+  if (Validator.isEmpty(data.body)) {
     errors.body = "Body field is required";
   }
 

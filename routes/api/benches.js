@@ -49,7 +49,7 @@ router.post(
 );
 
 router.post(
-  "/review/:id",
+  "/reviews/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const { errors, isValid } = validateBenchInput(req.body);
@@ -62,6 +62,7 @@ router.post(
 
     Bench.findById(req.params.id)
       .then(bench => {
+        debugger;
         const newReview = {
           user: req.user.id,
           body: req.body.body,
@@ -69,7 +70,7 @@ router.post(
         };
 
         // Add to comments array
-        bench.comments.unshift(newReview);
+        bench.reviews.unshift(newReview);
 
         // Save
         bench.save().then(bench => res.json(bench));
