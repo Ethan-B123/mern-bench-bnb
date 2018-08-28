@@ -11,14 +11,14 @@ const Greeting = ({ currentUser, logout }) => {
       <Link to="/signup">Sign up!</Link>
     </nav>
   );
-  const personalGreeting = () => (
+  const personalGreeting = ({ handle }) => (
     <hgroup className="header-group">
-      <h2 className="header-name">Hi, {currentUser.username}!</h2>
+      <h2 className="header-name">Hi, {handle}!</h2>
       <button className="header-button" onClick={logout}>Log Out</button>
     </hgroup>
   );
 
-  return currentUser ? personalGreeting() : sessionLinks();
+  return currentUser.handle !== undefined ? personalGreeting(currentUser) : sessionLinks();
 };
 
 

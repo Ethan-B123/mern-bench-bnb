@@ -18,9 +18,9 @@ router.post("/register", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  User.findOne({ email: req.body.email }).then(user => {
+  User.findOne({ handle: req.body.handle }).then(user => {
     if (user) {
-      errors.email = "User already exists";
+      errors.handle = "User already exists";
       return res.status(400).json(errors);
     } else {
       const newUser = new User({
@@ -35,7 +35,16 @@ router.post("/register", (req, res) => {
           newUser.password = hash;
           newUser
             .save()
-            .then(user => res.json(user))
+            .then(user => {
+              const payload = { id: user.id, handle: user.handle };
+
+              jwt.sign(payload, key, { expiresIn: 3600 }, (err, token) => {
+                res.json({
+                  success: true,
+                  token: "Bearer " + token
+                });
+              });
+            })
             .catch(err => console.log(err));
         });
       });
@@ -50,12 +59,12 @@ router.post("/login", (req, res) => {
     return res.status(400).json(errors);
   }
 
-  const email = req.body.email;
+  const handle = req.body.handle;
   const password = req.body.password;
 
-  User.findOne({ email }).then(user => {
+  User.findOne({ handle }).then(user => {
     if (!user) {
-      errors.email = "This user does not exist";
+      errors.handle = "This user does not exist";
       return res.status(400).json(errors);
     }
 
