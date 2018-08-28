@@ -14,10 +14,16 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "Password is required"]
   },
-  tweets: [
+  benches: [
     {
       type: Schema.Types.ObjectId,
-      ref: "tweets"
+      ref: "benches"
+    }
+  ],
+  favorites: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "benches"
     }
   ],
   date: {

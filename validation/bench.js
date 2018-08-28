@@ -1,7 +1,7 @@
 const Validator = require("validator");
 const isEmpty = require("./is-empty");
 
-module.exports = function validateTweetInput(data) {
+module.exports = function validateBenchInput(data) {
   let errors = {};
 
   data.body = !isEmpty(data.body) ? data.body : "";
