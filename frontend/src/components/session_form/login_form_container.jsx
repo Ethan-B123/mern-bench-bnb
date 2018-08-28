@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { login } from '../../actions/session_actions';
+import { setCurrentUser } from '../../util/session_api_util';
 import SessionForm from './session_form';
+
+
 
 const mapStateToProps = ({ errors }) => {
   return {
@@ -14,7 +16,7 @@ const mapStateToProps = ({ errors }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    processForm: (user) => dispatch(login(user)),
+    processForm: (user) => dispatch(setCurrentUser(user)),
   };
 };
 
